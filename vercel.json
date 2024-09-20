@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "functions": {
+    "api/server.js": {
+      "memory": 512,
+      "maxDuration": 10, 
+      "includeFiles": "node_modules/chrome-aws-lambda/**"
+    }
+  },
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/server.js" }
+  ]
+}
