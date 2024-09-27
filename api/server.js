@@ -13,7 +13,7 @@ app.use(cors());
 app.get('/api/manhwa-popular', async (req, res) => {
   try {
     // URL yang akan di-scrape
-    const url = 'https://manhwaindo.net/';
+    const url = 'https://kiryuu.org/';
 
     // Ambil HTML dari URL menggunakan axios
     const { data } = await axios.get(url);
@@ -29,7 +29,7 @@ app.get('/api/manhwa-popular', async (req, res) => {
         const title = $(element).find('.tt').text().trim();
         const chapter = $(element).find('.epxs').text().trim();
         const rating = $(element).find('.numscore').text().trim();
-        const imageSrc = $(element).find('img').attr('data-lazy-src');
+        const imageSrc = $(element).find('img').attr('src');
         const link = $(element).find('a').attr('href');
         
         results.push({
@@ -57,7 +57,7 @@ app.get('/api/manhwa-popular', async (req, res) => {
 app.get('/api/manhwa-recomendation', async (req, res) => {
   try {
     // URL yang akan di-scrape
-    const url = 'https://manhwaindo.net/series/?status=ongoing&type=&order=popular';
+    const url = 'https://kiryuu.org/series/?status=ongoing&type=&order=popular';
 
     // Ambil HTML dari URL menggunakan axios
     const { data } = await axios.get(url);
@@ -73,7 +73,7 @@ app.get('/api/manhwa-recomendation', async (req, res) => {
         const title = $(element).find('.tt').text().trim();
         const chapter = $(element).find('.epxs').text().trim();
         const rating = $(element).find('.numscore').text().trim();
-        const imageSrc = $(element).find('img').attr('data-lazy-src');
+        const imageSrc = $(element).find('img').attr('src');
         const link = $(element).find('a').attr('href');
         
         results.push({
@@ -100,7 +100,7 @@ app.get('/api/manhwa-recomendation', async (req, res) => {
 // NEW MANHWA
 app.get('/api/manhwa-new', async (req, res) => {
     try {
-      const url = 'https://manhwaindo.net/';
+      const url = 'https://kiryuu.org/';
       const { data } = await axios.get(url);
       const $ = load(data);
   
@@ -109,7 +109,7 @@ app.get('/api/manhwa-new', async (req, res) => {
       $('.utao').each((index, element) => {
         const title = $(element).find('.luf h4').text().trim();
         const link = $(element).find('.luf a.series').attr('href');
-        const imageSrc = $(element).find('.imgu img').attr('data-lazy-src');
+        const imageSrc = $(element).find('.imgu img').attr('src');
         const chapters = [];
         
         $(element).find('.luf ul.Manhwa li').each((i, el) => {
@@ -142,7 +142,7 @@ app.get('/api/manhwa-new', async (req, res) => {
 
 // MANHWA RECOMMEND
 app.get('/api/manhwa-recommend', async (req, res) => {
-  const url = 'https://manhwaindo.net/';
+  const url = 'https://kiryuu.org/';
 
   try {
       const { data } = await axios.get(url);
@@ -156,7 +156,7 @@ app.get('/api/manhwa-recommend', async (req, res) => {
           item.rank = $(element).find('.ctr').text().trim();
           item.title = $(element).find('.leftseries h2 a').text().trim();
           item.url = $(element).find('.leftseries h2 a').attr('href');
-          item.image = img.attr('data-lazy-src');
+          item.image = img.attr('src');
           item.genres = $(element).find('.leftseries span').text().replace('Genres: ', '').split(', ');
           item.rating = $(element).find('.numscore').text().trim();
 
@@ -174,7 +174,7 @@ app.get('/api/manhwa-recommend', async (req, res) => {
 // DATA GENRE
   app.get('/api/data', async (req, res) => {
     try {
-        const url = 'https://manhwaindo.net/series/list-mode/'; // Replace with the actual URL
+        const url = 'https://kiryuu.org/series/list-mode/'; // Replace with the actual URL
         const { data } = await axios.get(url);
         const $ = load(data);
 
@@ -201,7 +201,7 @@ app.get('/api/manhwa-recommend', async (req, res) => {
 // GENRE RESULT
 app.get('/api/genre/:genreId', async (req, res) => {
   const { genreId } = req.params;
-  const url = `https://manhwaindo.net/genres/${genreId}`;
+  const url = `https://kiryuu.org/genres/${genreId}`;
 
   try {
     const { data } = await axios.get(url);
@@ -214,7 +214,7 @@ app.get('/api/genre/:genreId', async (req, res) => {
 
       series.title = bsx.find('a').attr('title');
       series.url = bsx.find('a').attr('href');
-      series.image = bsx.find('img').attr('data-lazy-src');
+      series.image = bsx.find('img').attr('src');
       series.latestChapter = bsx.find('.epxs').text();
       series.rating = bsx.find('.numscore').text();
 
@@ -239,7 +239,7 @@ app.get('/api/genre/:genreId', async (req, res) => {
 });
 app.get('/api/genre/:genreId/page/:pageNumber', async (req, res) => {
   const { genreId, pageNumber } = req.params;
-  const url = `https://manhwaindo.net/genres/${genreId}/page/${pageNumber}`;
+  const url = `https://kiryuu.org/genres/${genreId}/page/${pageNumber}`;
 
   try {
     const { data } = await axios.get(url);
@@ -252,7 +252,7 @@ app.get('/api/genre/:genreId/page/:pageNumber', async (req, res) => {
 
       series.title = bsx.find('a').attr('title');
       series.url = bsx.find('a').attr('href');
-      series.image = bsx.find('img').attr('data-lazy-src');
+      series.image = bsx.find('img').attr('src');
       series.latestChapter = bsx.find('.epxs').text();
       series.rating = bsx.find('.numscore').text();
 
@@ -286,7 +286,7 @@ app.get('/api/genre/:genreId/page/:pageNumber', async (req, res) => {
 // SEARCH RESULT
 app.get('/api/search/:searchId', async (req, res) => {
   const { searchId } = req.params;
-  const url = `https://manhwaindo.net/?s=${searchId}`;
+  const url = `https://kiryuu.org/?s=${searchId}`;
 
   try {
     const { data } = await axios.get(url);
@@ -324,7 +324,7 @@ app.get('/api/search/:searchId', async (req, res) => {
 });
 app.get('/api/page/:pageNumber/search/:searchId', async (req, res) => {
   const { searchId, pageNumber } = req.params;
-  const url = `https://manhwaindo.net/page/${pageNumber}/?s=${searchId}`;
+  const url = `https://kiryuu.org/page/${pageNumber}/?s=${searchId}`;
 
   try {
     const { data } = await axios.get(url);
@@ -368,31 +368,41 @@ app.get('/api/page/:pageNumber/search/:searchId', async (req, res) => {
 // MANHWA DETAL
 app.get('/api/manhwa-detail/:manhwaId', async (req, res) => {
   const manhwaId = req.params.manhwaId;
-  const url = `https://manhwaindo.net/series/${manhwaId}`;
+  const url = `https://kiryuu.org/manga/${manhwaId}`;
 
   try {
       const { data } = await axios.get(url);
       const $ = load(data);
 
-      const title = $('.info-desc h1.entry-title').text().trim();
-      const imageSrc = $('.info-left .thumb img').attr('data-lazy-src');
-      const rating = $('.info-left .rating .num').text().trim();
-      const status = $('.info-left .tsinfo .imptdt').eq(0).text().trim().replace('Status ', '');
-      const type = $('.info-left .tsinfo .imptdt').eq(1).text().trim().replace('Type ', '');
-      const author = $('.info-left .tsinfo .imptdt').eq(2).text().trim().replace('Author ', '');
-      const postedBy = $('.info-left .tsinfo .imptdt').eq(3).text().trim().replace('Posted By ', '');
-      const postedOn = $('.info-left .tsinfo .imptdt').eq(4).text().trim().replace('Posted On ', '');
-      const updatedOn = $('.info-left .tsinfo .imptdt').eq(5).text().trim().replace('Updated On ', '');
-      
-      // Mengambil views jika tersedia
-      const viewsElement = $('.info-left .tsinfo .imptdt').eq(6).text().trim();
-      const views = viewsElement.startsWith('Views ') ? viewsElement.replace('Views ', '') : 'N/A';
-      
-      const synopsis = $('.info-desc .entry-content.entry-content-single').text().trim();
-      
-      // Mengambil genre
+      // Extract title, image, rating, and follow information
+      const title = $('.seriestucontl .thumb img').attr('title');
+      const imageSrc = $('.seriestucontl .thumb img').attr('src');
+      const rating = $('.seriestucontl .rating .num').text().trim();
+      const followedBy = $('.seriestucontl .bmc').text().trim();
+
+      // Extract synopsis
+      const synopsis = $('.seriestucontentr .entry-content').text().trim();
+
+      // Extract the first and latest chapter
+      const firstChapterLink = $('.lastend .inepcx').first().find('a').attr('href');
+      const firstChapterTitle = $('.lastend .inepcx').first().find('.epcur').text().trim();
+      const latestChapterLink = $('.lastend .inepcx').last().find('a').attr('href');
+      const latestChapterTitle = $('.lastend .inepcx').last().find('.epcur').text().trim();
+
+      // Extract details from the table (Status, Type, Released, etc.)
+      const status = $('table.infotable tr').eq(0).find('td').eq(1).text().trim();
+      const type = $('table.infotable tr').eq(1).find('td').eq(1).text().trim();
+      const released = $('table.infotable tr').eq(2).find('td').eq(1).text().trim();
+      const author = $('table.infotable tr').eq(3).find('td').eq(1).text().trim();
+      const artist = $('table.infotable tr').eq(4).find('td').eq(1).text().trim();
+      const postedBy = $('table.infotable tr').eq(5).find('i').text().trim();
+      const postedOn = $('table.infotable tr').eq(6).find('time').text().trim();
+      const updatedOn = $('table.infotable tr').eq(7).find('time').text().trim();
+      const views = $('table.infotable tr').eq(8).find('.ts-views-count').text().trim();
+
+      // Extract genres
       const genres = [];
-      $('.mgen a').each((index, element) => {
+      $('.seriestugenre a').each((index, element) => {
           const genreName = $(element).text().trim();
           const genreLink = $(element).attr('href');
           genres.push({
@@ -400,34 +410,31 @@ app.get('/api/manhwa-detail/:manhwaId', async (req, res) => {
               genreLink
           });
       });
-      
-      const chapters = [];
-      $('#chapterlist ul li').each((index, element) => {
-          const chapterLink = $(element).find('a').attr('href');
-          const chapterTitle = $(element).find('.chapternum').text().trim();
-          const chapterDate = $(element).find('.chapterdate').text().trim();
-  
-          chapters.push({
-              chapterLink,
-              chapterTitle,
-              chapterDate
-          });
-      });
 
       const manhwaDetails = {
           title,
           imageSrc,
           rating,
+          followedBy,
+          synopsis,
+          firstChapter: {
+              title: firstChapterTitle,
+              link: firstChapterLink
+          },
+          latestChapter: {
+              title: latestChapterTitle,
+              link: latestChapterLink
+          },
           status,
           type,
+          released,
           author,
+          artist,
           postedBy,
           postedOn,
           updatedOn,
           views,
-          synopsis,
-          genres,
-          chapters
+          genres
       };
 
       res.json(manhwaDetails);
@@ -437,12 +444,13 @@ app.get('/api/manhwa-detail/:manhwaId', async (req, res) => {
   }
 });
 
+
 // MANHWA DETAIL
 
 // MANHWA-ONGOING
 app.get('/api/manhwa-ongoing', async (req, res) => {
   try {
-      const url = 'https://manhwaindo.net/series/?status=ongoing&type=manhwa&order=';
+      const url = 'https://kiryuu.org/series/?status=ongoing&type=manhwa&order=';
       const response = await axios.get(url);
       const html = response.data;
       const $ = load(html);
@@ -451,7 +459,7 @@ app.get('/api/manhwa-ongoing', async (req, res) => {
 
       $('.bs').each((index, element) => {
           const title = $(element).find('.bigor .tt').text().trim();
-          const imageUrl = $(element).find('img').attr('data-lazy-src');
+          const imageUrl = $(element).find('img').attr('src');
           const link = $(element).find('a').attr('href');
           const latestChapter = $(element).find('.epxs').text().trim();
           const rating = $(element).find('.numscore').text().trim();
@@ -481,7 +489,7 @@ app.get('/api/manhwa-ongoing', async (req, res) => {
 // READ CHAPTER
 app.get('/api/chapter/:chapterId', async (req, res) => {
   const { chapterId } = req.params;
-  const url = `https://manhwaindo.net/${chapterId}`; // Sesuaikan URL jika perlu
+  const url = `https://kiryuu.org/${chapterId}`; // Sesuaikan URL jika perlu
 
   try {
     const response = await axios.get(url);
@@ -494,7 +502,7 @@ app.get('/api/chapter/:chapterId', async (req, res) => {
     // Ambil gambar dari halaman
     const images = [];
     $('#readerarea img').each((index, element) => {
-      const imgSrc = $(element).attr('data-lazy-src') || $(element).attr('src');
+      const imgSrc = $(element).attr('src') || $(element).attr('src');
       if (imgSrc && imgSrc !== 'https://img.manhwaindo.id/ads/Manhwaland Banner-min.jpg') {
         images.push(imgSrc);
       }
