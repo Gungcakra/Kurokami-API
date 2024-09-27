@@ -499,14 +499,11 @@ app.get('/api/chapter/:chapterId', async (req, res) => {
     // Ambil judul bab
     const title = $('h1.entry-title').text().trim();
 
-    // Ambil gambar dari halaman
-    const images = [];
-    $('#readerarea img').each((index, element) => {
-      const imgSrc = $(element).attr('src') || $(element).attr('src');
-      if (imgSrc && imgSrc !== 'https://img.manhwaindo.id/ads/Manhwaland Banner-min.jpg') {
-        images.push(imgSrc);
-      }
-    });
+    // Fungsi untuk menunggu (delay)
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    // Tunggu 1 detik sebelum mengambil gambar
+    await delay(1000); 
 
     // Temukan dan ambil skrip yang mengandung objek ts_reader
     const scriptContent = $('script').filter((i, el) => {
@@ -516,6 +513,9 @@ app.get('/api/chapter/:chapterId', async (req, res) => {
     // Ekstrak objek JSON dari skrip
     const jsonString = scriptContent.match(/ts_reader\.run\((.*?)\);/)[1];
     const jsonObject = JSON.parse(jsonString);
+
+    // Ambil gambar dari sumber yang ditentukan
+    const images = jsonObject.sources[0].images;
 
     // Ambil URL untuk bab sebelumnya dan berikutnya
     const prevChapter = jsonObject.prevUrl || null;
@@ -536,12 +536,13 @@ app.get('/api/chapter/:chapterId', async (req, res) => {
       }
     });
 
+    // Mengirim respons JSON berisi data judul, gambar, bab sebelumnya, bab berikutnya, dan daftar chapter
     res.json({
       title,
       images,
       prevChapter,
       nextChapter,
-      chapters // Menambahkan daftar chapter ke dalam respons JSON
+      chapters
     });
 
   } catch (error) {
@@ -549,6 +550,8 @@ app.get('/api/chapter/:chapterId', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch chapter data' });
   }
 });
+
+
 
 
 // READ CHAPTER
