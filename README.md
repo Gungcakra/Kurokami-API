@@ -42,7 +42,7 @@ Replace `$endpoint` with the appropriate endpoint from the list below.
   Retrieve specific details of a manhwa based on `manhwaId`.
 
   **Example:**  
-  `https://kurokami.vercel.app/api/manhwa-detail/the-nano-machine`
+  `https://kurokami.vercel.app/api/manhwa-detail/nano-machine`
 
 ### 3. Popular Manhwa
 - **GET** `/manhwa-recomendation`
@@ -74,7 +74,7 @@ Replace `$endpoint` with the appropriate endpoint from the list below.
   Retrieve details of a manhwa chapter based on `chapterId`, including panel images that can be read. Chapter content is fetched through scraping to ensure real-time access to the latest chapters.
 
   **Example:**  
-  `https://kurokami.vercel.app/api/chapter/the-nano-machine-chapter-1`
+  `https://kurokami.vercel.app/api/chapter/nano-machine-chapter-1`
 
 ### 7. Genre List
 - **GET** `/data`
