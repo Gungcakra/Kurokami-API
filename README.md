@@ -1,100 +1,101 @@
-# Kurokami API
+# Kurokami - Manhwa API
+An API that provides data related to manhwa and manga. This API allows you to access various information about manhwa, including manhwa lists, popular manhwa, the latest releases, manhwa genres, manhwa search, and specific chapters of a manhwa. The API is built using Express.js, with several features powered by web scraping to fetch real-time data from external sources.
 
-Kurokami API adalah sebuah API yang menyediakan data terkait manhwa dan manga. API ini memungkinkan Anda untuk mengakses berbagai informasi mengenai manhwa, termasuk daftar manhwa, manhwa populer, manhwa terbaru, genre manhwa, pencarian manhwa, serta chapter dari manhwa. API ini dibangun menggunakan Express.js.
+## Features
 
-## Fitur
+- **Manhwa List**: Retrieve a list of all available manhwa.
+- **Popular Manhwa**: Get a list of currently popular manhwa.
+- **Latest Manhwa**: Provides information about the latest manhwa releases.
+- **Manhwa Genres**: Offers a list of available genres for manhwa.
+- **Manhwa Search**: Search for manhwa based on a specific query.
+- **Manhwa Chapter**: Retrieve information about a manhwa's chapters, including chapter images for reading, using scraping techniques to dynamically fetch content from other websites.
 
-- **Daftar Manhwa**: Mendapatkan daftar semua manhwa yang tersedia.
-- **Manhwa Populer**: Mengambil daftar manhwa yang sedang populer.
-- **Manhwa Terbaru**: Menyediakan informasi tentang manhwa terbaru.
-- **Genre Manhwa**: Menyediakan daftar genre yang tersedia untuk manhwa.
-- **Pencarian Manhwa**: Mencari manhwa berdasarkan query tertentu.
-- **Chapter Manhwa**: Mengambil informasi mengenai chapter dari sebuah manhwa dan gambar dari chapter sehingga dapat dibaca
+## TechStack
 
-## Teknologi
+- **Express.js**
+- **Node.js**
+- **Axios**
+- **Cheerio**
+- **Vercel**
 
-- **Express.js**: Framework backend minimalis untuk API.
-- **Node.js**: JavaScript runtime yang digunakan sebagai basis aplikasi server.
-- **Vercel**: Platform hosting untuk API ini.
+## API URL
 
-## URL API
-
-API ini dapat diakses melalui URL berikut:
+The API can be accessed via the following URL:
 
 https://kurokami.vercel.app/api/$endpoint
 
-Gantilah `$endpoint` dengan endpoint yang sesuai dari daftar di bawah.
+Replace `$endpoint` with the appropriate endpoint from the list below.
 
-## Daftar Endpoint
+## Endpoint List
 
-### 1. Manhwa Baru
+### 1. New Manhwa
 - **GET** `/manhwa-new`
   
-  Mendapatkan daftar manhwa terbaru.
+  Retrieve a list of the latest manhwa releases.
   
-  **Contoh:**  
+  **Example:**  
   `https://kurokami.vercel.app/api/manhwa-new`
 
-### 2. Detail Manhwa
+### 2. Manhwa Details
 - **GET** `/manhwa-detail/:manhwaId`
 
-  Mendapatkan detail spesifik dari sebuah manhwa berdasarkan `manhwaId`.
+  Retrieve specific details of a manhwa based on `manhwaId`.
 
-  **Contoh:**  
+  **Example:**  
   `https://kurokami.vercel.app/api/manhwa-detail/the-nano-machine`
 
-### 3. Manhwa Populer
+### 3. Popular Manhwa
 - **GET** `/manhwa-recomendation`
 
-  Mendapatkan daftar manhwa yang sedang populer.
+  Retrieve a list of currently popular manhwa.
 
-  **Contoh:**  
+  **Example:**  
   `https://kurokami.vercel.app/api/manhwa-recomendation`
 
-### 4. Rekomendasi Manhwa
+### 4. Manhwa Recommendations
 - **GET** `/manhwa-recomend`
 
-  Mendapatkan daftar rekomendasi manhwa.
+  Retrieve a list of recommended manhwa.
 
-  **Contoh:**  
+  **Example:**  
   `https://kurokami.vercel.app/api/manhwa-recomend`
 
-### 5. Manhwa Ongoing
+### 5. Ongoing Manhwa
 - **GET** `/manhwa-ongoing`
 
-  Mendapatkan daftar manhwa yang sedang ongoing.
+  Retrieve a list of currently ongoing manhwa.
 
-  **Contoh:**  
+  **Example:**  
   `https://kurokami.vercel.app/api/manhwa-ongoing`
 
-### 6. Detail Chapter Manhwa
+### 6. Chapter Details
 - **GET** `/chapter/:chapterId`
 
-  Mendapatkan detail dari chapter manhwa berdasarkan `chapterId`, termasuk gambar panel manhwa yang bisa dibaca.
+  Retrieve details of a manhwa chapter based on `chapterId`, including panel images that can be read. Chapter content is fetched through scraping to ensure real-time access to the latest chapters.
 
-  **Contoh:**  
+  **Example:**  
   `https://kurokami.vercel.app/api/chapter/the-nano-machine-chapter-1`
 
-### 7. List Genre
+### 7. Genre List
 - **GET** `/data`
 
-  Mendapatkan daftar genre manhwa yang tersedia.
+  Retrieve a list of available manhwa genres.
 
-  **Contoh:**  
+  **Example:**  
   `https://kurokami.vercel.app/api/data`
 
-### 8. Manhwa Berdasarkan Genre
+### 8. Manhwa by Genre
 - **GET** `/genre/:genreId`
 
-  Mendapatkan daftar manhwa berdasarkan genre tertentu.
+  Retrieve a list of manhwa based on a specific genre.
 
-  **Contoh:**  
+  **Example:**  
   `https://kurokami.vercel.app/api/genre/action`
 
-### 9. Pencarian Manhwa
+### 9. Manhwa Search
 - **GET** `/search/:searchId`
 
-  Mendapatkan daftar manhwa berdasarkan kata kunci pencarian.
+  Retrieve a list of manhwa based on a search query.
 
-  **Contoh:**  
+  **Example:**  
   `https://kurokami.vercel.app/api/search/nano%20machine`
