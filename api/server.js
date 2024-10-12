@@ -541,20 +541,21 @@ app.get('/api/chapter/:chapterId', async (req, res) => {
 
     // Ambil daftar chapter dari elemen <select> di dalam elemen .nvx
     const chapters = [];
-    $('.nvx #chapter option').each((index, element) => {
-      const chapterTitle = $(element).text().trim();
-      const chapterUrl = $(element).attr('value');
+$('.nvx #chapter option').each((index, element) => {
+  const chapterTitle = $(element).text().trim();
+  const chapterUrl = $(element).attr('value');
 
-      // Skip the first option which is "Select Chapter"
-      if (chapterTitle !== "Select Chapter") {
-        chapters.push({
-          title: chapterTitle,
-          url: chapterUrl
-        });
-      }
-    });
+  // Add all options, including "Pilih Chapter"
+  chapters.push({
+    title: chapterTitle,
+    url: chapterUrl || null // If value is empty, set URL to null
+  });
+});
 
-    // Mengirim respons JSON berisi data judul, gambar, bab sebelumnya, bab berikutnya, dan daftar chapter
+
+    
+
+  
     res.json({
       title,
       images,
