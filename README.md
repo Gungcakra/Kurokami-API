@@ -78,7 +78,7 @@ Replace `$endpoint` with the appropriate endpoint from the list below.
   `https://kurokami.vercel.app/api/chapter/nano-machine-chapter-1`
 
 ### 7. Genre List
-- **GET** `/data`
+- **GET** `/genres`
 
   Retrieve a list of available manhwa genres.
 
