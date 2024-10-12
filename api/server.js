@@ -57,7 +57,7 @@ app.get('/api/manhwa-popular', async (req, res) => {
 app.get('/api/manhwa-recomendation', async (req, res) => {
   try {
     // URL yang akan di-scrape
-    const url = 'https://kiryuu.org/series/?status=ongoing&type=&order=popular';
+    const url = 'https://kiryuu.org/comic/?status=ongoing&type=&order=popular';
 
     // Ambil HTML dari URL menggunakan axios
     const { data } = await axios.get(url);
@@ -172,9 +172,9 @@ app.get('/api/manhwa-recommend', async (req, res) => {
 // MANHWA RECOMMEND
 
 // DATA GENRE
-  app.get('/api/data', async (req, res) => {
+  app.get('/api/genres', async (req, res) => {
     try {
-        const url = 'https://kiryuu.org/series/list-mode/'; // Replace with the actual URL
+        const url = 'https://kiryuu.org/manga/list-mode/'; // Replace with the actual URL
         const { data } = await axios.get(url);
         const $ = load(data);
 
@@ -371,78 +371,96 @@ app.get('/api/manhwa-detail/:manhwaId', async (req, res) => {
   const url = `https://kiryuu.org/manga/${manhwaId}`;
 
   try {
-      const { data } = await axios.get(url);
-      const $ = load(data);
+    const { data } = await axios.get(url);
+    const $ = load(data);
 
-      // Extract title, image, rating, and follow information
-      const title = $('.seriestucontl .thumb img').attr('title');
-      const imageSrc = $('.seriestucontl .thumb img').attr('src');
-      const rating = $('.seriestucontl .rating .num').text().trim();
-      const followedBy = $('.seriestucontl .bmc').text().trim();
+    // Extract title, image, rating, and follow information
+    const title = $('.seriestucontl .thumb img').attr('title');
+    const imageSrc = $('.seriestucontl .thumb img').attr('src');
+    const rating = $('.seriestucontl .rating .num').text().trim();
+    const followedBy = $('.seriestucontl .bmc').text().trim();
 
-      // Extract synopsis
-      const synopsis = $('.seriestucontentr .entry-content').text().trim();
+    // Extract synopsis
+    const synopsis = $('.seriestucontentr .entry-content').text().trim();
 
-      // Extract the first and latest chapter
-      const firstChapterLink = $('.lastend .inepcx').first().find('a').attr('href');
-      const firstChapterTitle = $('.lastend .inepcx').first().find('.epcur').text().trim();
-      const latestChapterLink = $('.lastend .inepcx').last().find('a').attr('href');
-      const latestChapterTitle = $('.lastend .inepcx').last().find('.epcur').text().trim();
+    // Extract the first and latest chapter
+    const firstChapterLink = $('.lastend .inepcx').first().find('a').attr('href');
+    const firstChapterTitle = $('.lastend .inepcx').first().find('.epcur').text().trim();
+    const latestChapterLink = $('.lastend .inepcx').last().find('a').attr('href');
+    const latestChapterTitle = $('.lastend .inepcx').last().find('.epcur').text().trim();
 
-      // Extract details from the table (Status, Type, Released, etc.)
-      const status = $('table.infotable tr').eq(0).find('td').eq(1).text().trim();
-      const type = $('table.infotable tr').eq(1).find('td').eq(1).text().trim();
-      const released = $('table.infotable tr').eq(2).find('td').eq(1).text().trim();
-      const author = $('table.infotable tr').eq(3).find('td').eq(1).text().trim();
-      const artist = $('table.infotable tr').eq(4).find('td').eq(1).text().trim();
-      const postedBy = $('table.infotable tr').eq(5).find('i').text().trim();
-      const postedOn = $('table.infotable tr').eq(6).find('time').text().trim();
-      const updatedOn = $('table.infotable tr').eq(7).find('time').text().trim();
-      const views = $('table.infotable tr').eq(8).find('.ts-views-count').text().trim();
+    // Extract details from the table (Status, Type, Released, etc.)
+    const status = $('table.infotable tr').eq(0).find('td').eq(1).text().trim();
+    const type = $('table.infotable tr').eq(1).find('td').eq(1).text().trim();
+    const released = $('table.infotable tr').eq(2).find('td').eq(1).text().trim();
+    const author = $('table.infotable tr').eq(3).find('td').eq(1).text().trim();
+    const artist = $('table.infotable tr').eq(4).find('td').eq(1).text().trim();
+    const postedBy = $('table.infotable tr').eq(5).find('i').text().trim();
+    const postedOn = $('table.infotable tr').eq(6).find('time').text().trim();
+    const updatedOn = $('table.infotable tr').eq(7).find('time').text().trim();
+    const views = $('table.infotable tr').eq(8).find('.ts-views-count').text().trim();
 
-      // Extract genres
-      const genres = [];
-      $('.seriestugenre a').each((index, element) => {
-          const genreName = $(element).text().trim();
-          const genreLink = $(element).attr('href');
-          genres.push({
-              genreName,
-              genreLink
-          });
+    // Extract genres
+    const genres = [];
+    $('.seriestugenre a').each((index, element) => {
+      const genreName = $(element).text().trim();
+      const genreLink = $(element).attr('href');
+      genres.push({
+        genreName,
+        genreLink
       });
+    });
 
-      const manhwaDetails = {
-          title,
-          imageSrc,
-          rating,
-          followedBy,
-          synopsis,
-          firstChapter: {
-              title: firstChapterTitle,
-              link: firstChapterLink
-          },
-          latestChapter: {
-              title: latestChapterTitle,
-              link: latestChapterLink
-          },
-          status,
-          type,
-          released,
-          author,
-          artist,
-          postedBy,
-          postedOn,
-          updatedOn,
-          views,
-          genres
-      };
+    // Extract list of chapters
+    const chapters = [];
+    $('ul.clstyle li').each((index, element) => {
+      const chapterNum = $(element).find('.chapternum').text().trim();
+      const chapterLink = $(element).find('a').attr('href');
+      const chapterDate = $(element).find('.chapterdate').text().trim();
+      const downloadLink = $(element).find('.dload').attr('href');
 
-      res.json(manhwaDetails);
+      chapters.push({
+        chapterNum,
+        chapterLink,
+        chapterDate,
+        downloadLink
+      });
+    });
+
+    const manhwaDetails = {
+      title,
+      imageSrc,
+      rating,
+      followedBy,
+      synopsis,
+      firstChapter: {
+        title: firstChapterTitle,
+        link: firstChapterLink
+      },
+      latestChapter: {
+        title: latestChapterTitle,
+        link: latestChapterLink
+      },
+      status,
+      type,
+      released,
+      author,
+      artist,
+      postedBy,
+      postedOn,
+      updatedOn,
+      views,
+      genres,
+      chapters // Include the list of chapters
+    };
+
+    res.json(manhwaDetails);
   } catch (error) {
-      console.error(error);
-      res.status(500).send('Error occurred while scraping data');
+    console.error(error);
+    res.status(500).send('Error occurred while scraping data');
   }
 });
+
 
 
 // MANHWA DETAIL
@@ -450,7 +468,7 @@ app.get('/api/manhwa-detail/:manhwaId', async (req, res) => {
 // MANHWA-ONGOING
 app.get('/api/manhwa-ongoing', async (req, res) => {
   try {
-      const url = 'https://kiryuu.org/series/?status=ongoing&type=manhwa&order=';
+      const url = 'https://kiryuu.org/comic/?status=ongoing&type=manhwa&order=';
       const response = await axios.get(url);
       const html = response.data;
       const $ = load(html);
