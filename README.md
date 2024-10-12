@@ -1,8 +1,4 @@
-<meta property="og:image" content="panel.png">
-<meta property="og:title" content="Kurokami - Manhwa&Manga API">
-<meta property="og:description" content="Manhwa Manga Scrapper">
-<meta property="og:url" content="https://github.com/Gungcakra/Kurokami-API">
-
+![App Screenshot](panel.png)
 # Kurokami API
 An API that provides data related to manhwa and manga. This API allows you to access various information about manhwa, including manhwa lists, popular manhwa, the latest releases, manhwa genres, manhwa search, and specific chapters of a manhwa. The API is built using Express.js, with several features powered by web scraping to fetch real-time data from external sources.
 
