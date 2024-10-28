@@ -7,39 +7,6 @@ const PORT = 3000;
 
 app.use(cors());
 
-app.get('/api/tes', async (req, res) => {
-  const url = 'https://hanime.onrender.com/trending/month/0'; // URL akan diisi sebagai parameter query
-
-  try {
-      // Mengambil halaman HTML dari URL
-      const { data } = await axios.get(url);
-      const $ = load(data);
-
-      // Memilih elemen dan mengambil data yang dibutuhkan
-      const results = [];
-      $('.col.mb-5').each((_, element) => {
-          const views = $(element).find('.badge').text().trim();
-          const imageUrl = $(element).find('.card-img-top').attr('src');
-          const title = $(element).find('.fw-bolder').text().trim();
-          const videoLink = $(element).find('.btn-outline-info').attr('href');
-
-          results.push({
-              views,
-              imageUrl,
-              title,
-              videoLink: `https://hanime.onrender.com/${videoLink}`,
-          });
-      });
-
-      res.json(results);
-  } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Failed to scrape data' });
-  }
-});
-
-
-
 // POPULAR MANHWA
 app.get('/api/manhwa-popular', async (req, res) => {
   try {
