@@ -372,34 +372,31 @@ app.get('/api/manhwa-detail/:manhwaId', async (req, res) => {
     const $ = load(data);
 
     // Extract title, image, rating, and follow information
-    const title = $('.seriestucontl .thumb img').attr('title');
-    const imageSrc = $('.seriestucontl .thumb img').attr('src');
-    const rating = $('.seriestucontl .rating .num').text().trim();
-    const followedBy = $('.seriestucontl .bmc').text().trim();
+    const title = $('.infox .entry-title').text().trim();
+    const imageSrc = $('.thumb img').attr('src');
+    const rating = $('.rating .num').text().trim();
+    const followedBy = $('.bmc').text().trim();
 
     // Extract synopsis
-    const synopsis = $('.seriestucontentr .entry-content').text().trim();
+    const synopsis = $('.entry-content.entry-content-single').text().trim();
 
     // Extract the first and latest chapter
     const firstChapterLink = $('.lastend .inepcx').first().find('a').attr('href');
-    const firstChapterTitle = $('.lastend .inepcx').first().find('.epcur').text().trim();
+    const firstChapterTitle = $('.lastend .inepcx').first().find('.epcurfirst').text().trim();
     const latestChapterLink = $('.lastend .inepcx').last().find('a').attr('href');
-    const latestChapterTitle = $('.lastend .inepcx').last().find('.epcur').text().trim();
+    const latestChapterTitle = $('.lastend .inepcx').last().find('.epcurlast').text().trim();
 
-    // Extract details from the table (Status, Type, Released, etc.)
-    const status = $('table.infotable tr').eq(0).find('td').eq(1).text().trim();
-    const type = $('table.infotable tr').eq(1).find('td').eq(1).text().trim();
-    const released = $('table.infotable tr').eq(2).find('td').eq(1).text().trim();
-    const author = $('table.infotable tr').eq(3).find('td').eq(1).text().trim();
-    const artist = $('table.infotable tr').eq(4).find('td').eq(1).text().trim();
-    const postedBy = $('table.infotable tr').eq(5).find('i').text().trim();
-    const postedOn = $('table.infotable tr').eq(6).find('time').text().trim();
-    const updatedOn = $('table.infotable tr').eq(7).find('time').text().trim();
-    const views = $('table.infotable tr').eq(8).find('.ts-views-count').text().trim();
+    // Extract details from the new layout (Status, Type, Released, etc.)
+    const status = $('.tsinfo .imptdt').eq(0).find('i').text().trim();
+    const type = $('.tsinfo .imptdt').eq(1).find('a').text().trim();
+    const released = $('.fmed').eq(0).find('span').text().trim();
+    const author = $('.fmed').eq(1).find('span').text().trim();
+    const artist = $('.fmed').eq(2).find('span').text().trim();
+    const updatedOn = $('.fmed').eq(3).find('time').text().trim();
 
     // Extract genres
     const genres = [];
-    $('.seriestugenre a').each((index, element) => {
+    $('.mgen a').each((index, element) => {
       const genreName = $(element).text().trim();
       const genreLink = $(element).attr('href');
       genres.push({
@@ -410,9 +407,9 @@ app.get('/api/manhwa-detail/:manhwaId', async (req, res) => {
 
     // Extract list of chapters
     const chapters = [];
-    $('ul.clstyle li').each((index, element) => {
+    $('#chapterlist li').each((index, element) => {
       const chapterNum = $(element).find('.chapternum').text().trim();
-      const chapterLink = $(element).find('a').attr('href');
+      const chapterLink = $(element).find('.eph-num a').attr('href');
       const chapterDate = $(element).find('.chapterdate').text().trim();
       const downloadLink = $(element).find('.dload').attr('href');
 
@@ -443,12 +440,9 @@ app.get('/api/manhwa-detail/:manhwaId', async (req, res) => {
       released,
       author,
       artist,
-      postedBy,
-      postedOn,
       updatedOn,
-      views,
       genres,
-      chapters // Include the list of chapters
+      chapters
     };
 
     res.json(manhwaDetails);
@@ -457,6 +451,7 @@ app.get('/api/manhwa-detail/:manhwaId', async (req, res) => {
     res.status(500).send('Error occurred while scraping data');
   }
 });
+
 
 
 
