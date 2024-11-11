@@ -499,61 +499,62 @@ app.get('/api/manhwa-ongoing', async (req, res) => {
 // READ CHAPTER
 app.get('/api/chapter/:chapterId', async (req, res) => {
   const { chapterId } = req.params;
-  const url = `https://komikstation.co/${chapterId}`; // Sesuaikan URL jika perlu
+  const url = `https://komikstation.co/${chapterId}`; // Adjust the URL if necessary
 
   try {
     const response = await axios.get(url);
     const html = response.data;
     const $ = load(html);
 
-    // Ambil judul bab
+    // Extract the chapter title
     const title = $('h1.entry-title').text().trim();
 
-    // Fungsi untuk menunggu (delay)
+    // Function for delay
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-    // Tunggu 1 detik sebelum mengambil gambar
-    await delay(1000); 
+    // Wait 1 second before extracting images
+    await delay(1000);
 
-    // Temukan dan ambil skrip yang mengandung objek ts_reader
+    // Find and extract the script containing `ts_reader` object
     const scriptContent = $('script').filter((i, el) => {
       return $(el).html().includes('ts_reader.run');
     }).html();
 
-    // Ekstrak objek JSON dari skrip
+    // Extract JSON object from the script
     const jsonString = scriptContent.match(/ts_reader\.run\((.*?)\);/)[1];
     const jsonObject = JSON.parse(jsonString);
 
-    // Ambil gambar dari sumber yang ditentukan
+    // Get images from the specified source
     const images = jsonObject.sources[0].images;
 
-    // Ambil URL untuk bab sebelumnya dan berikutnya
+    // Extract URLs for previous and next chapters
     const prevChapter = jsonObject.prevUrl || null;
     const nextChapter = jsonObject.nextUrl || null;
 
-    // Ambil daftar chapter dari elemen <select> di dalam elemen .nvx
+    // Extract chapter list from the `<select>` element in both `.nvx` elements
     const chapters = [];
-$('.nvx #chapter option').each((index, element) => {
-  const chapterTitle = $(element).text().trim();
-  const chapterUrl = $(element).attr('value');
+    $('.nvx #chapter option').each((index, element) => {
+      const chapterTitle = $(element).text().trim();
+      const chapterUrl = $(element).attr('value') || null; // Set URL to null if value is empty
 
-  // Add all options, including "Pilih Chapter"
-  chapters.push({
-    title: chapterTitle,
-    url: chapterUrl || null // If value is empty, set URL to null
-  });
-});
+      chapters.push({
+        title: chapterTitle,
+        url: chapterUrl
+      });
+    });
 
+    // Extract "Prev" and "Next" navigation URLs
+    const prevButtonUrl = $('.ch-prev-btn').attr('href') || null;
+    const nextButtonUrl = $('.ch-next-btn').attr('href') || null;
 
-    
-
-  
     res.json({
       title,
       images,
       prevChapter,
       nextChapter,
-      chapters
+      chapters,
+      prevButtonUrl,
+      nextButtonUrl
     });
 
   } catch (error) {
