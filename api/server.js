@@ -114,17 +114,23 @@ app.get('/api/manhwa-new', async (req, res) => {
         const imageSrc = $(element).find('.imgu img').attr('src');
         const chapters = [];
         
-        $(element).find('.luf ul.Manga li').each((i, el) => {
+        const mangaList = $(element).find('.luf ul.Manga li');
+        const manhwaList = $(element).find('.luf ul.Manhwa li');
+        const manhuaList = $(element).find('.luf ul.Manhua li');
+        const chapterElements = mangaList.length ? mangaList : manhwaList.length ? manhwaList : manhuaList;
+        
+        chapterElements.each((i, el) => {
           const chapterLink = $(el).find('a').attr('href');
           const chapterTitle = $(el).find('a').text().trim();
           const timeAgo = $(el).find('span').text().trim();
-          
+        
           chapters.push({
             chapterLink,
             chapterTitle,
             timeAgo
           });
         });
+        
         
         results.push({
           title,
