@@ -10,7 +10,7 @@ app.use(cors());
 app.get('/api/manhwa-popular', async (req, res) => {
   try {
     // URL yang akan di-scrape
-    const url = 'https://komikstation.co/';
+    const url = 'https://komikstation.co/manga/?type=manhwa&order=popular';
 
     // Ambil HTML dari URL menggunakan axios
     const { data } = await axios.get(url);
@@ -50,44 +50,51 @@ app.get('/api/manhwa-popular', async (req, res) => {
 
 
 // RECOMMEND
-app.get('/api/manhwa-recomendation', async (req, res) => {
+app.get('/api/manhwa-recommendation', async (req, res) => {
   try {
-    // URL yang akan di-scrape
-    const url = 'https://komikstation.co/comic/?status=ongoing&type=&order=popular';
+    // URLs that will be scraped
+    const urls = [
+      'https://komikstation.co/manga/?page=2&type=manhwa&order=popular',
+      'https://komikstation.co/manga/?page=3&type=manhwa&order=popular'
+    ];
 
-    // Ambil HTML dari URL menggunakan axios
-    const { data } = await axios.get(url);
+    // Array to hold all scraped results
+    const allResults = [];
 
-    // Muat HTML ke cheerio
-    const $ = load(data);
+    // Loop through each URL and scrape data
+    for (const url of urls) {
+      // Fetch HTML from each URL
+      const { data } = await axios.get(url);
 
-    // Scraping data dari elemen yang diberikan
-    const results = [];
-    
-    $('.bs').each((index, element) => {
-      const title = $(element).find('.tt').text().trim();
-      const chapter = $(element).find('.epxs').text().trim();
-      const rating = $(element).find('.numscore').text().trim();
-      const imageSrc = $(element).find('img').attr('src');
-      const link = $(element).find('a').attr('href');
-      
-      results.push({
-        title,
-        chapter,
-        rating,
-        imageSrc,
-        link
+      // Load HTML into cheerio
+      const $ = load(data);
+
+      // Extract data from elements and add it to the results
+      $('.bs').each((index, element) => {
+        const title = $(element).find('.tt').text().trim();
+        const chapter = $(element).find('.epxs').text().trim();
+        const rating = $(element).find('.numscore').text().trim();
+        const imageSrc = $(element).find('img').attr('src');
+        const link = $(element).find('a').attr('href');
+
+        allResults.push({
+          title,
+          chapter,
+          rating,
+          imageSrc,
+          link
+        });
       });
-     
-    });
+    }
 
-    // Kirim hasil scraping sebagai respons JSON
-    res.json(results);
+    // Send all results as JSON response
+    res.json(allResults);
   } catch (error) {
     console.error(error);
     res.status(500).send('Error occurred while scraping data');
   }
 });
+
 
 // RECOMMEND
 
