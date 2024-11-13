@@ -22,21 +22,20 @@ app.get('/api/manhwa-popular', async (req, res) => {
     const results = [];
     
     $('.bs').each((index, element) => {
-      if (index < 7) { // Ambil hanya 7 data pertama
-        const title = $(element).find('.tt').text().trim();
-        const chapter = $(element).find('.epxs').text().trim();
-        const rating = $(element).find('.numscore').text().trim();
-        const imageSrc = $(element).find('img').attr('src');
-        const link = $(element).find('a').attr('href');
-        
-        results.push({
-          title,
-          chapter,
-          rating,
-          imageSrc,
-          link
-        });
-      }
+      const title = $(element).find('.tt').text().trim();
+      const chapter = $(element).find('.epxs').text().trim();
+      const rating = $(element).find('.numscore').text().trim();
+      const imageSrc = $(element).find('img').attr('src');
+      const link = $(element).find('a').attr('href');
+      
+      results.push({
+        title,
+        chapter,
+        rating,
+        imageSrc,
+        link
+      });
+      
     });
 
     // Kirim hasil scraping sebagai respons JSON
@@ -66,21 +65,20 @@ app.get('/api/manhwa-recomendation', async (req, res) => {
     const results = [];
     
     $('.bs').each((index, element) => {
-      if (index < 30) { // Ambil hanya 7 data pertama
-        const title = $(element).find('.tt').text().trim();
-        const chapter = $(element).find('.epxs').text().trim();
-        const rating = $(element).find('.numscore').text().trim();
-        const imageSrc = $(element).find('img').attr('src');
-        const link = $(element).find('a').attr('href');
-        
-        results.push({
-          title,
-          chapter,
-          rating,
-          imageSrc,
-          link
-        });
-      }
+      const title = $(element).find('.tt').text().trim();
+      const chapter = $(element).find('.epxs').text().trim();
+      const rating = $(element).find('.numscore').text().trim();
+      const imageSrc = $(element).find('img').attr('src');
+      const link = $(element).find('a').attr('href');
+      
+      results.push({
+        title,
+        chapter,
+        rating,
+        imageSrc,
+        link
+      });
+     
     });
 
     // Kirim hasil scraping sebagai respons JSON
