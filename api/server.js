@@ -465,7 +465,7 @@ app.get('/api/manhwa-detail/:manhwaId', async (req, res) => {
 // MANHWA-ONGOING
 app.get('/api/manhwa-ongoing', async (req, res) => {
   try {
-      const url = 'https://komikstation.co/comic/?status=ongoing&type=manhwa&order=';
+      const url = 'https://komikstation.co/manga/?status=ongoing&type=manhwa&order=';
       const response = await axios.get(url);
       const html = response.data;
       const $ = load(html);
