@@ -114,7 +114,7 @@ app.get('/api/manhwa-new', async (req, res) => {
         const imageSrc = $(element).find('.imgu img').attr('src');
         const chapters = [];
         
-        $(element).find('.luf ul.Manhwa li').each((i, el) => {
+        $(element).find('.luf ul.Manga li').each((i, el) => {
           const chapterLink = $(el).find('a').attr('href');
           const chapterTitle = $(el).find('a').text().trim();
           const timeAgo = $(el).find('span').text().trim();
