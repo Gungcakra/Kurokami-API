@@ -83,7 +83,7 @@ Replace `$endpoint` with the appropriate endpoint from the list below.
   Retrieve a list of available manhwa genres.
 
   **Example:**  
-  `https://kurokami.vercel.app/api/data`
+  `https://kurokami.vercel.app/api/genres`
 
 ### 8. Manhwa by Genre
 - **GET** `/genre/:genreId`
