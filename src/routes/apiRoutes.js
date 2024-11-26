@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  test,
   getManhwaPopular,
   getManhwaRecommendation,
   getManhwaNew,
@@ -16,6 +17,7 @@ import {
 
 const router = express.Router();
 
+router.get("/test", test);
 router.get("/manhwa-popular", getManhwaPopular);
 router.get("/manhwa-recommendation", getManhwaRecommendation);
 router.get("/manhwa-new", getManhwaNew);
