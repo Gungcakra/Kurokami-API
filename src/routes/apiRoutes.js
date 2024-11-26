@@ -24,7 +24,7 @@ router.get("/genres", getGenres);
 router.get("/genre/:genreId", getGenreId);
 router.get("/genre/:genreId/page/:pageNumber", getGenreIdPage);
 router.get("/search/:searchId", getSearch);
-router.get("/page/:pageNumber/search/:searchId", getSearchPage);
+router.get("/search/:searchId/page/:pageNumber", getSearchPage);
 router.get("/manhwa-detail/:manhwaId", getManhwaDetail);
 router.get("/manhwa-ongoing", getManhwaOnGoing);
 router.get("/chapter/:chapterId", getChapter);
