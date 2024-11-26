@@ -3,7 +3,7 @@ import { fetchPage } from "../utils/fetchPage.js";
 
 export const test = async (req, res) => {
   try {
-    const url = "https://manhwaindo.one/series/?status=&type=manhwa&order=popular";
+    const url = "https://baca01.manhwadesu.co.in/komik/?status=&type=manhwa&order=popular";
 
     const html = await fetchPage(url);
 
