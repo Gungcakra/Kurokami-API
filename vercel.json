@@ -1,13 +1,15 @@
 {
   "version": 2,
-  "functions": {
-    "api/server.js": {
-      "memory": 512,
-      "maxDuration": 10, 
-      "includeFiles": "node_modules/chrome-aws-lambda/**"
+  "builds": [
+    {
+      "src": "src/app.js",
+      "use": "@vercel/node"
     }
-  },
+  ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/server.js" }
+    {
+      "src": "/(.*)",
+      "dest": "src/app.js"
+    }
   ]
 }
