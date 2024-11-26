@@ -35,7 +35,7 @@ export const fetchPage = async (url, config = {}) => {
       ...config,
     });
 
-    console.log("Response Headers:", response.headers);
+    // console.log("Response Headers:", response.headers);
 
     await delay(1000);
     return response.data;

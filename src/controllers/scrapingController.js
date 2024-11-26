@@ -433,11 +433,9 @@ export const getManhwaDetail = async (req, res) => {
 };
 
 export const getManhwaOnGoing = async (req, res) => {
+    const url = "https://komikstation.co/manga/?status=ongoing&type=manhwa&order=";
   try {
-    const url =
-      "https://komikstation.co/manga/?status=ongoing&type=manhwa&order=";
-    const response = await fetchPage(url);
-    const html = response.data;
+    const html = await fetchPage(url);
     const $ = load(html);
 
     const manhwaList = [];
@@ -472,8 +470,7 @@ export const getChapter = async (req, res) => {
   const url = `https://komikstation.co/${chapterId}`; 
 
   try {
-    const response = await fetchPage(url);
-    const html = response.data;
+    const html = await fetchPage(url);
     const $ = load(html);
 
     
