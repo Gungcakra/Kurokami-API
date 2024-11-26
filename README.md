@@ -1,15 +1,22 @@
 ![App Screenshot](panel.png)
 # Kurokami API
-An API that provides data related to manhwa and manga. This API allows you to access various information about manhwa, including manhwa lists, popular manhwa, the latest releases, manhwa genres, manhwa search, and specific chapters of a manhwa. The API is built using Express.js, with several features powered by web scraping to fetch real-time data from external sources.
+Rest API Manhwa Bahasa Indonesia
 
-## Features
+## Source
+https://komikstation.co/
 
-- **Manhwa List**: Retrieve a list of all available manhwa.
-- **Popular Manhwa**: Get a list of currently popular manhwa.
-- **Latest Manhwa**: Provides information about the latest manhwa releases.
-- **Manhwa Genres**: Offers a list of available genres for manhwa.
-- **Manhwa Search**: Search for manhwa based on a specific query.
-- **Manhwa Chapter**: Retrieve information about a manhwa's chapters, including chapter images for reading, using scraping techniques to dynamically fetch content from other websites.
+## Fitur
+
+- **Manhwa Terbaru**
+- **Manhwa Populer**
+- **Manhwa Top**
+- **Manhwa Ongoing**
+- **Manhwa Rekomendasi**
+- **Genre Manhwa**
+- **Manhwa By Genre**
+- **Detail Manhwa**
+- **Search Manhwa**
+- **Chapter Manhwa**
 
 ## TechStack
 
@@ -19,84 +26,158 @@ An API that provides data related to manhwa and manga. This API allows you to ac
 - **Cheerio**
 - **Vercel**
 
-## API URL
 
-The API can be accessed via the following URL:
+## Installasi
+```bash
+# Clone repositori
+git clone https://github.com/Gungcakra/kurokami-manhwa-api.git
+
+# Masuk ke folder proyek
+cd kurokami-manhwa-api
+
+# Install dependensi
+npm install
+
+# Jalankan server
+npm start
+
+```
+
+## Contoh Response
+```json
+{
+    "title": "Return of The Greatest Lancer",
+    "link": "https://komikstation.co/manga/return-of-the-greatest-lancer/",
+    "imageSrc": "https://i0.wp.com/komikstation.co/wp-content/uploads/2021/09/Return-of-The-Greatest-Lancer-1.jpg?resize=100,130",
+    "chapters": [
+        {
+            "chapterLink": "https://komikstation.co/return-of-the-greatest-lancer-chapter-151/",
+            "chapterTitle": "Ch.151",
+            "timeAgo": "3 jam lalu"
+        },
+        {
+            "chapterLink": "https://komikstation.co/return-of-the-greatest-lancer-chapter-150/",
+            "chapterTitle": "Ch.150",
+            "timeAgo": "1 minggu lalu"
+        },
+        {
+            "chapterLink": "https://komikstation.co/return-of-the-greatest-lancer-chapter-149/",
+            "chapterTitle": "Ch.149",
+            "timeAgo": "2 minggu lalu"
+        }
+    ]
+}
+```
+
+
+## Routes
+URL Utama API:
 
 https://kurokami.vercel.app/api/$endpoint
 
-Replace `$endpoint` with the appropriate endpoint from the list below.
+Ganti `$endpoint` dengan list endpoint ini.
 
 ## Endpoint List
 
 ### 1. New Manhwa
 - **GET** `/manhwa-new`
   
-  Retrieve a list of the latest manhwa releases.
+  Get list manhwa terbaru.
   
   **Example:**  
   `https://kurokami.vercel.app/api/manhwa-new`
 
-### 2. Manhwa Details
-- **GET** `/manhwa-detail/:manhwaId`
+### 2. Manhwa Populer
+- **GET** `/manhwa-popular`
 
-  Retrieve specific details of a manhwa based on `manhwaId`.
-
-  **Example:**  
-  `https://kurokami.vercel.app/api/manhwa-detail/nano-machine`
-
-### 3. Popular Manhwa
-- **GET** `/manhwa-recomendation`
-
-  Retrieve a list of currently popular manhwa.
+  Get list manhwa populer
 
   **Example:**  
-  `https://kurokami.vercel.app/api/manhwa-recomendation`
+  `https://kurokami.vercel.app/api/manhwa-popular`
+  
+### 3. Manhwa Top
+- **GET** `/manhwa-top`
 
-### 4. Manhwa Recommendations
-- **GET** `/manhwa-recomend`
-
-  Retrieve a list of recommended manhwa.
+  Get list manhwa top
 
   **Example:**  
-  `https://kurokami.vercel.app/api/manhwa-recomend`
-
-### 5. Ongoing Manhwa
+  `https://kurokami.vercel.app/api/manhwa-top`
+  
+### 4. Manhwa Ongoing
 - **GET** `/manhwa-ongoing`
 
-  Retrieve a list of currently ongoing manhwa.
+  Get list manhwa ongoing
 
   **Example:**  
   `https://kurokami.vercel.app/api/manhwa-ongoing`
+  
+### 5. Manhwa Rekomendasi
+- **GET** `/manhwa-recommendation`
 
-### 6. Chapter Details
+  Get list manhwa rekomendasi
+
+  **Example:**  
+  `https://kurokami.vercel.app/api/manhwa-recommendation`
+
+  
+### 6. Manhwa Details
+- **GET** `/manhwa-detail/:manhwaId`
+
+  Get detail manhwa sesuai  `manhwaId`.
+
+  **Example:**  
+  `https://kurokami.vercel.app/api/manhwa-detail/nano-machine`
+  
+
+### 7. Chapter Details
 - **GET** `/chapter/:chapterId`
 
-  Retrieve details of a manhwa chapter based on `chapterId`, including panel images that can be read. Chapter content is fetched through scraping to ensure real-time access to the latest chapters.
+  Get detail chapter manhwa sesuai  `chapterId`
 
   **Example:**  
   `https://kurokami.vercel.app/api/chapter/nano-machine-chapter-1`
+  
 
-### 7. Genre List
+### 8. Genre List
 - **GET** `/genres`
 
-  Retrieve a list of available manhwa genres.
+  Get list genre.
 
   **Example:**  
   `https://kurokami.vercel.app/api/genres`
 
-### 8. Manhwa by Genre
+
+### 9. Manhwa by Genre 
 - **GET** `/genre/:genreId`
 
-  Retrieve a list of manhwa based on a specific genre.
+  Get list manhwa sesuai genre.
 
   **Example:**  
   `https://kurokami.vercel.app/api/genre/action`
 
-### 9. Manhwa Search
+
+  ### 10. Manhwa by Genre with Page
+- **GET** `/genre/:genreId/page/:pageNumber`
+
+  Get list manhwa sesuai genre dan page.
+
+  **Example:**  
+  `https://kurokami.vercel.app/api/genre/action/page/2`
+
+
+### 11. Manhwa Search
 - **GET** `/search/:searchId`
 
-  Retrieve a list of manhwa based on a search query.
+  Get list manhwa sesuai searchQuery.
 
   **Example:**  
   `https://kurokami.vercel.app/api/search/nano%20machine`
+
+  
+### 12. Manhwa Search with Page
+- **GET** `/search/:searchId/page/:pageNumber`
+
+  Get list manhwa sesuai searchQuery dan page.
+
+  **Example:**  
+  `https://kurokami.vercel.app/api/search/nano%20machine/page/2`
