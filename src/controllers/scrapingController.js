@@ -1,38 +1,6 @@
 import { load } from "cheerio";
 import { fetchPage } from "../utils/fetchPage.js";
 
-export const test = async (req, res) => {
-  try {
-    const url = "https://baca01.manhwadesu.co.in/komik/?status=&type=manhwa&order=popular";
-
-    const html = await fetchPage(url);
-
-    const $ = load(html);
-
-    const results = [];
-
-    $(".bs").each((index, element) => {
-      const title = $(element).find(".tt").text().trim();
-      const chapter = $(element).find(".epxs").text().trim();
-      const rating = $(element).find(".numscore").text().trim();
-      const imageSrc = $(element).find("img").attr("src");
-      const link = $(element).find("a").attr("href");
-
-      results.push({
-        title,
-        chapter,
-        rating,
-        imageSrc,
-        link,
-      });
-    });
-
-    res.json(results);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error occurred while scraping data");
-  }
-};
 export const getManhwaPopular = async (req, res) => {
   try {
     const url = "https://komikstation.co/manga/?type=manhwa&order=popular";
