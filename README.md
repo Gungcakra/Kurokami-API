@@ -1,4 +1,4 @@
-![App Screenshot](panel.png)
+![Preview](panel.png)
 # Kurokami API
 Rest API Manhwa Bahasa Indonesia
 
